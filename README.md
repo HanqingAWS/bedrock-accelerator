@@ -24,7 +24,7 @@ PUBLIC_SUBNET_IDS=subnet-xxxxxxxx,subnet-yyyyyyyy
 ENABLE_GLOBAL_ACCELERATOR=false
 
 # AWS Region Configuration (optional)
-AWS_REGION=ap-northeast-1
+AWS_REGION=us-east-1
 ```
 
 Configuration Parameters:
@@ -34,7 +34,7 @@ Configuration Parameters:
 | VPC_ID | ID of the VPC where resources will be created | Yes | vpc-xxxxxxxx |
 | PUBLIC_SUBNET_IDS | Comma-separated list of public subnet IDs | Yes | subnet-xxx,subnet-yyy |
 | ENABLE_GLOBAL_ACCELERATOR | Whether to enable Global Accelerator | No | false |
-| AWS_REGION | AWS Region for deployment | No | ap-northeast-1 |
+| AWS_REGION | AWS Region for deployment | No | us-east-1 |
 
 ## Deployment
 
