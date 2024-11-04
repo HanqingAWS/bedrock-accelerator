@@ -10,6 +10,8 @@ export interface BedrockAcceleratorStackProps extends cdk.StackProps {
   vpcId: string;
   publicSubnetIds: string[];
   enableGlobalAccelerator?: boolean;
+  region: string;  // Add region property
+  nlbSecurityGroup: string;
 }
 
 export class BedrockAcceleratorStack extends cdk.Stack {
@@ -39,11 +41,24 @@ export class BedrockAcceleratorStack extends cdk.Stack {
       'Allow HTTPS traffic from VPC'
     );
 
+    // Create security group for the nlb
+    const nlbSecurityGroup = new ec2.SecurityGroup(this, 'BedrockNLB/SecurityGroup', {
+      vpc,
+      description: 'Security group for Bedrock NLB',
+      allowAllOutbound: true,
+    });
+
+    nlbSecurityGroup.addIngressRule(
+      ec2.Peer.ipv4(props.nlbSecurityGroup),
+      ec2.Port.tcp(443),
+      'Allow HTTPS traffic for Bedrock NLB'
+    );
+
     // Create VPC endpoint for Bedrock
     const endpoint = new ec2.InterfaceVpcEndpoint(this, 'BedrockEndpoint', {
       vpc,
       service: {
-        name: 'com.amazonaws.ap-northeast-1.bedrock-runtime',
+        name: `com.amazonaws.${props.region}.bedrock-runtime`, 
         port: 443,
       },
       subnets: {
@@ -66,6 +81,7 @@ export class BedrockAcceleratorStack extends cdk.Stack {
     const cfnNlb = new elbv2.CfnLoadBalancer(this, 'BedrockNLB', {
       type: 'network',
       scheme: 'internet-facing',
+      securityGroups: [nlbSecurityGroup.securityGroupId],
       subnetMappings: [
         {
           subnetId: subnets[0].subnetId,
@@ -163,7 +179,7 @@ export class BedrockAcceleratorStack extends cdk.Stack {
     if (props.enableGlobalAccelerator !== false) {
       new GlobalAcceleratorNestedStack(this, 'GlobalAcceleratorStack', {
         nlbArn: nlb.loadBalancerArn,
-        nlbRegion: this.region,
+        nlbRegion: props.region,  // Use props.region
       });
     }
 

@@ -37,7 +37,8 @@ const envVars = loadEnvFile();
 const vpcId = envVars['VPC_ID'];
 const publicSubnetIds = envVars['PUBLIC_SUBNET_IDS']?.split(',') || [];
 const enableGlobalAccelerator = envVars['ENABLE_GLOBAL_ACCELERATOR']?.toLowerCase() === 'true';
-const region = envVars['AWS_REGION'];
+const region = envVars['AWS_REGION'] || process.env.CDK_DEFAULT_REGION;
+const nlbSecurityGroup = envVars['NLB_SECURITY_GROUP'];
 
 if (!vpcId) {
   throw new Error('VPC_ID must be provided in .env file');
@@ -47,14 +48,20 @@ if (!publicSubnetIds || publicSubnetIds.length === 0) {
   throw new Error('PUBLIC_SUBNET_IDS must be provided in .env file');
 }
 
+if (!region) {
+  throw new Error('AWS_REGION must be provided in .env file or CDK_DEFAULT_REGION must be set');
+}
+
 // Create the main Bedrock Accelerator stack
 new BedrockAcceleratorStack(app, 'BedrockAcceleratorStack', {
   vpcId,
   publicSubnetIds,
   enableGlobalAccelerator,
+  region,
+  nlbSecurityGroup,
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: region || process.env.CDK_DEFAULT_REGION
+    region: region
   },
   description: 'Bedrock Accelerator Stack with VPC Endpoint and NLB'
 });

@@ -20,6 +20,9 @@ Configure the stack by editing the `.env` file in the project root:
 VPC_ID=vpc-xxxxxxxx
 PUBLIC_SUBNET_IDS=subnet-xxxxxxxx,subnet-yyyyyyyy
 
+# NLB Configuration
+NLB_SECURITY_GROUP=0.0.0.0/0
+
 # Global Accelerator Configuration
 ENABLE_GLOBAL_ACCELERATOR=false
 
@@ -33,6 +36,7 @@ Configuration Parameters:
 |-----------|-------------|----------|---------|
 | VPC_ID | ID of the VPC where resources will be created | Yes | vpc-xxxxxxxx |
 | PUBLIC_SUBNET_IDS | Comma-separated list of public subnet IDs | Yes | subnet-xxx,subnet-yyy |
+| NLB_SECURITY_GROUP | Restrict access to the IP range of NLB | Yes | 0.0.0.0/0 |
 | ENABLE_GLOBAL_ACCELERATOR | Whether to enable Global Accelerator | No | false |
 | AWS_REGION | AWS Region for deployment | No | us-east-1 |
 
@@ -71,4 +75,4 @@ After deployment, the stack will output:
    - Ensure subnets have proper routing and internet access
 
 2. For Global Accelerator issues:
-   - Pls check the service in us-west-2 region
+   - Please check the service in us-west-2 region

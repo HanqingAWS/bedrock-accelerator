@@ -53,5 +53,67 @@
         ]
       }
     ]
+  },
+  "vpc-provider:account=044324713311:filter.vpc-id=vpc-0a69fff4ed598ed76:region=us-east-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0a69fff4ed598ed76",
+    "vpcCidrBlock": "172.31.0.0/16",
+    "ownerAccountId": "044324713311",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0af3db4ca6ad17685",
+            "cidr": "172.31.32.0/20",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-0656704fc4729c983"
+          },
+          {
+            "subnetId": "subnet-004bc0126983e6090",
+            "cidr": "172.31.0.0/20",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-0656704fc4729c983"
+          },
+          {
+            "subnetId": "subnet-035a07a0f166e0fe6",
+            "cidr": "172.31.80.0/20",
+            "availabilityZone": "us-east-1c",
+            "routeTableId": "rtb-0656704fc4729c983"
+          },
+          {
+            "subnetId": "subnet-067871459c1659d74",
+            "cidr": "172.31.16.0/20",
+            "availabilityZone": "us-east-1d",
+            "routeTableId": "rtb-0656704fc4729c983"
+          },
+          {
+            "subnetId": "subnet-0d67d0a7a99645122",
+            "cidr": "172.31.48.0/20",
+            "availabilityZone": "us-east-1e",
+            "routeTableId": "rtb-0656704fc4729c983"
+          },
+          {
+            "subnetId": "subnet-0eb145821300d0768",
+            "cidr": "172.31.64.0/20",
+            "availabilityZone": "us-east-1f",
+            "routeTableId": "rtb-0656704fc4729c983"
+          }
+        ]
+      },
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-09f4687d60803af94",
+            "cidr": "172.31.128.0/24",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-0322cd8aa8449017f"
+          }
+        ]
+      }
+    ]
   }
 }
