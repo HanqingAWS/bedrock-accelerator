@@ -1,5 +1,5 @@
 # Bedrock Accelerator CDK
-
+![image](architecture.png)
 This CDK project creates an infrastructure stack to accelerate Amazon Bedrock API calls by Network Load Balancer (NLB) with Elastic IP(Fixed IP). Optionally, it can be configured with AWS Global Accelerator for improved global access.
 
 ## Features
