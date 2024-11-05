@@ -177,9 +177,18 @@ export class BedrockAcceleratorStack extends cdk.Stack {
 
     // Create Global Accelerator if enabled
     if (props.enableGlobalAccelerator !== false) {
-      new GlobalAcceleratorNestedStack(this, 'GlobalAcceleratorStack', {
+      const globalAcceleratorStack = new GlobalAcceleratorNestedStack(this, 'GlobalAcceleratorStack', {
         nlbArn: nlb.loadBalancerArn,
         nlbRegion: props.region,  // Use props.region
+      });
+
+      // Export Global Accelerator outputs
+      new cdk.CfnOutput(this, 'GlobalAcceleratorDnsName', {
+        value: globalAcceleratorStack.accelerator.attrDnsName,
+      });
+
+      new cdk.CfnOutput(this, 'GlobalAcceleratorArn', { 
+        value: globalAcceleratorStack.accelerator.ref
       });
     }
 

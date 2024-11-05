@@ -9,11 +9,12 @@ export interface GlobalAcceleratorNestedStackProps extends NestedStackProps {
 }
 
 export class GlobalAcceleratorNestedStack extends NestedStack {
+  public readonly accelerator: globalaccelerator.CfnAccelerator;
   constructor(scope: Construct, id: string, props: GlobalAcceleratorNestedStackProps) {
     super(scope, id, props);
 
     // Create Global Accelerator
-    const accelerator = new globalaccelerator.CfnAccelerator(this, 'BedrockAccelerator', {
+    this.accelerator = new globalaccelerator.CfnAccelerator(this, 'BedrockAccelerator', {
       name: 'bedrock-accelerator',
       enabled: true,
       ipAddressType: 'IPV4'
@@ -21,7 +22,7 @@ export class GlobalAcceleratorNestedStack extends NestedStack {
 
     // Create listener
     const listener = new globalaccelerator.CfnListener(this, 'AcceleratorListener', {
-      acceleratorArn: accelerator.ref,
+      acceleratorArn: this.accelerator.ref,
       portRanges: [
         {
           fromPort: 443,
@@ -46,8 +47,13 @@ export class GlobalAcceleratorNestedStack extends NestedStack {
 
     // Output the Global Accelerator DNS name
     new cdk.CfnOutput(this, 'GlobalAcceleratorDNS', {
-      value: accelerator.attrDnsName,
+      value: this.accelerator.attrDnsName,
       description: 'The DNS name of the Global Accelerator'
+    });
+    // Output the Global Accelerator ARN
+    new cdk.CfnOutput(this, 'GlobalAcceleratorARN', {
+      value: this.accelerator.ref,
+      description: 'The ARN of the Global Accelerator'
     });
   }
 }
